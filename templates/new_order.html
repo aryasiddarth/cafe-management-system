@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>New Order - KAAPI</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="KAAPI New Order" name="keywords">
+    <meta content="Place a new order at KAAPI coffee house" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/style.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6F4E37;
+            --secondary: #C4A484;
+            --dark: #4B3621;
+            --light: #F5F5DC;
+        }
+        .bg-primary {
+            background-color: var(--primary) !important;
+        }
+        .text-primary {
+            color: var(--primary) !important;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            color: white !important;
+        }
+        .order-card {
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .menu-item {
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(111, 78, 55, 0.1);
+        }
+        .selected-item {
+            background-color: rgba(111, 78, 55, 0.05);
+            border-left: 3px solid var(--primary);
+        }
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0 nav-bar">
+        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+            <a href="index.html" class="navbar-brand px-lg-4 m-0">
+                <h1 class="m-0 display-4 text-uppercase text-white">KAAPI</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ml-auto p-4">
+                    <a href="{{ url_for('customer_dashboard') }}" class="nav-item nav-link">Back</a>
+                    <a href="{{ url_for('logout') }}" class="nav-item nav-link">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 position-relative overlay-bottom">
+        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
+            <h1 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase">New Order</h1>
+            <div class="d-inline-flex mb-lg-5">
+                <p class="m-0 text-white"><a class="text-white" href="{{ url_for('index') }}">Home</a></p>
+                <p class="m-0 text-white px-2">/</p>
+                <p class="m-0 text-white">New Order</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Order Form Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Menu Items Column -->
+                <div class="col-lg-8">
+                    <div class="section-title">
+                        <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Menu</h4>
+                        <h1 class="display-4">Select Items</h1>
+                    </div>
+
+                    <div class="row">
+                        {% for item in menu_items %}
+                        <div class="col-md-6 mb-4">
+                            <div class="menu-item card border-0 shadow-sm" onclick="addToCart({{ item.item_id }}, '{{ item.name }}', {{ item.price }})">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="text-primary">{{ item.name }}</h5>
+                                        <h5 class="text-dark">₹{{ "%.2f"|format(item.price) }}</h5>
+                                    </div>
+                                    <p class="text-muted">Select to add to your order</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Order Summary Column -->
+                <div class="col-lg-4">
+                    <div class="card order-card">
+                        <div class="card-header bg-light">
+                            <h4 class="mb-0">Your Order</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="cart-items">
+                                <p class="text-muted">No items selected yet</p>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <h5>Total:</h5>
+                                <h5 id="order-total">₹0.00</h5>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <form id="order-form" method="POST" action="{{ url_for('place_order') }}">
+                                <input type="hidden" id="order-data" name="order_data">
+                                <button type="submit" class="btn btn-primary btn-block py-2" disabled id="place-order-btn">
+                                    <i class="fa fa-check mr-2"></i>Place Order
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Order Form End -->
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cart = {};
+        
+        function addToCart(itemId, itemName, itemPrice) {
+            if (cart[itemId]) {
+                cart[itemId].quantity += 1;
+            } else {
+                cart[itemId] = {
+                    name: itemName,
+                    price: itemPrice,
+                    quantity: 1
+                };
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const orderTotalDiv = document.getElementById('order-total');
+            const placeOrderBtn = document.getElementById('place-order-btn');
+            
+            if (Object.keys(cart).length === 0) {
+                cartItemsDiv.innerHTML = '<p class="text-muted">No items selected yet</p>';
+                orderTotalDiv.textContent = '₹0.00';
+                placeOrderBtn.disabled = true;
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+            
+            for (const [itemId, item] of Object.entries(cart)) {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                html += `
+                    <div class="d-flex justify-content-between mb-2 selected-item p-2">
+                        <div>
+                            <h6>${item.name}</h6>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${itemId}, -1)">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <input type="number" class="form-control quantity-input mx-2" 
+                                       value="${item.quantity}" min="1" 
+                                       onchange="setQuantity(${itemId}, this.value)">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${itemId}, 1)">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <h6>₹${itemTotal.toFixed(2)}</h6>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeItem(${itemId})">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            cartItemsDiv.innerHTML = html;
+            orderTotalDiv.textContent = `₹${total.toFixed(2)}`;
+            placeOrderBtn.disabled = false;
+            
+            // Update hidden form field
+            document.getElementById('order-data').value = JSON.stringify(cart);
+        }
+
+        function updateQuantity(itemId, change) {
+            const newQuantity = cart[itemId].quantity + change;
+            if (newQuantity > 0) {
+                cart[itemId].quantity = newQuantity;
+                updateCartDisplay();
+            }
+        }
+
+        function setQuantity(itemId, quantity) {
+            quantity = parseInt(quantity);
+            if (quantity > 0) {
+                cart[itemId].quantity = quantity;
+                updateCartDisplay();
+            }
+        }
+
+        function removeItem(itemId) {
+            delete cart[itemId];
+            updateCartDisplay();
+        }
+
+        // Handle form submission
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (Object.keys(cart).length === 0) return;
+            
+            fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(new FormData(this))
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "{{ url_for('order_history') }}";
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while placing your order');
+            });
+        });
+    </script>
+</body>
+</html>

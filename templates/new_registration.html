@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>New Registration - KAAPI</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="KAAPI Customer Registration" name="keywords">
+    <meta content="Register for a new KAAPI account" name="description">
+
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/style.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6F4E37;  /* Coffee brown */
+            --secondary: #C4A484; /* Light coffee */
+            --dark: #4B3621;     /* Dark coffee */
+            --light: #F5F5DC;    /* Cream */
+        }
+        .btn-primary {
+            color: white;  /* Set text color to white */
+        }
+        .bg-primary {
+            background-color: var(--primary) !important;
+        }
+        .text-primary {
+            color: var(--primary) !important;
+        }
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        .border-primary {
+            border-color: var(--primary) !important;
+        }
+        .registration-card {
+            transition: all 0.3s;
+            height: 100%;
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        .registration-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(111, 78, 55, 0.25);
+        }
+        .registration-header {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .btn-register {
+            background-color: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 10px;
+        }
+        .btn-register:hover {
+            background-color: var(--dark);
+            color: white;
+        }
+        #successMessage {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0 nav-bar">
+        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+            <a href="{{ url_for('index') }}" class="navbar-brand px-lg-4 m-0">
+                <h1 class="m-0 display-4 text-uppercase text-white">KAAPI</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav ml-auto p-4">
+                    <a href="{{ url_for('index') }}" class="nav-item nav-link">Back</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header mb-5 position-relative overlay-bottom">
+        <div class="d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5" style="min-height: 400px">
+            <h1 class="display-4 mb-3 mt-0 mt-lg-5 text-white text-uppercase">New Registration</h1>
+            <div class="d-inline-flex mb-lg-5">
+                <p class="m-0 text-white"><a class="text-white" href="{{ url_for('index') }}">Home</a></p>
+                <p class="m-0 text-white px-2">/</p>
+                <p class="m-0 text-white">Register</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Registration Form Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="section-title">
+                <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Join Us</h4>
+                <h1 class="display-4">Create Your Account</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="registration-card">
+                        <form method="POST" action="{{ url_for('register') }}" id="registrationForm">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="contact" class="form-label">Contact Number</label>
+                                <input type="tel" class="form-control" id="contact" name="contact" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="confirm_password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-register">
+                                <i class="fas fa-user-check mr-2"></i>Register
+                            </button>
+                            
+                            <div id="successMessage" class="alert alert-success mt-3">
+                                Registration successful! You can now <a href="{{ url_for('login') }}" class="alert-link">login</a>.
+                            </div>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p>Already have an account? <a href="{{ url_for('login_home') }}">Login here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Registration Form End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer text-white mt-5 pt-5 px-0 position-relative overlay-top">
+        <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Visit Us</h4>
+                <p><i class="fa fa-map-marker-alt mr-2"></i>MG Road, Kochi, Kerala</p>
+                <p><i class="fa fa-phone-alt mr-2"></i>+91 98765 43210</p>
+                <p class="m-0"><i class="fa fa-envelope mr-2"></i>visit@kaapi.com</p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Follow Our Journey</h4>
+                <p>Join our coffee community online</p>
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-outline-light btn-lg-square mr-2" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Brewing Hours</h4>
+                <div>
+                    <h6 class="text-white text-uppercase">Weekdays</h6>
+                    <p>6:30 AM - 10:00 PM</p>
+                    <h6 class="text-white text-uppercase">Weekends</h6>
+                    <p>7:00 AM - 11:00 PM</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Kaapi Newsletter</h4>
+                <p>Get brewing tips, offers, and Kerala coffee stories</p>
+                <div class="w-100">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-light" style="padding: 25px;" placeholder="Your Email">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary font-weight-bold px-3">Join</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid text-center text-white border-top mt-4 py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
+            <p class="mb-2 text-white">Copyright &copy; <a class="font-weight-bold" href="#">KAAPI</a>. All Rights Reserved.</a></p>
+            <p class="m-0 text-white">Crafted with <i class="fa fa-heart"></i> in Kerala</p>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../js/main.js"></script>
+    
+    <script>
+        // Show success message when form is submitted
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to the server
+            // For demonstration, we'll just show the success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Scroll to the success message
+            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+            
+            // In a real application, you would submit the form and handle the response
+            // This is just for demonstration
+            // this.submit();
+        });
+    </script>
+</body>
+
+</html>
