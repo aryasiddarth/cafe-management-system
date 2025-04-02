@@ -1,4 +1,4 @@
-# cafe-management-system
+# Cafe Management System
 - A prototype SQL based web application to manage restaurant database
 - technologies: html, css, javascript, python, flask, sql
 - required: python and flask
